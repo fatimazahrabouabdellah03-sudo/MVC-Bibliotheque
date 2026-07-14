@@ -1,19 +1,16 @@
 <?php
 
-require_once "Livre.php";
+
+require_once __DIR__ . "/Livre.php";
 require_once __DIR__ . "/../config/Database.php";
 
 class BibliothequeModel
 {
     private $pdo;
-
-    public function __construct()
+    public function __construct($pdo)
     {
-        global $pdo;
-
         $this->pdo = $pdo;
     }
-
     public function getLivres()
     {
         $sql = "SELECT * FROM livres";
@@ -28,7 +25,10 @@ class BibliothequeModel
         {
             $livres[] = new Livre(
                 $ligne["titre"],
-                $ligne["auteur"]
+                $ligne["auteur"],
+                $ligne["annee"],
+                $ligne["categorie"],
+                $ligne["disponible"]
             );
         }
 

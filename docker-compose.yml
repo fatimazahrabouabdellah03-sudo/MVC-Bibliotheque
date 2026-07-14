@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: mvc_bibliotheque
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    env_file: .env
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_bibliotheque
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/bibliotheque.sql:/docker-entrypoint-initdb.d/bibliotheque.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+
+volumes:
+  db_data:

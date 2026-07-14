@@ -1,9 +1,11 @@
 <?php
 
 $pdo = new PDO(
-    "mysql:host=localhost;dbname=bibliotheque;charset=utf8",
-    "root",
-    "fatimazahra123@"
+    "mysql:host=" . getenv('DB_HOST') .
+    ";dbname=" . getenv('DB_NAME') .
+    ";charset=utf8",
+    getenv('DB_USER'),
+    getenv('DB_PASSWORD')
 );
 
 $pdo->setAttribute(

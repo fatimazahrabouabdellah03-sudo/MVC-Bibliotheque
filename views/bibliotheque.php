@@ -1,3 +1,6 @@
+<?php
+/** @var Livre[] $livres */
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +13,11 @@
 
 <?php foreach ($livres as $livre): ?>
 
-    <h3><?= $livre->getTitre() ?></h3>
+    <h3><?= htmlspecialchars($livre->getTitre()) ?></h3>
 
     <p>
         Auteur :
-        <?= $livre->getAuteur() ?>
+        <?= htmlspecialchars($livre->getAuteur()) ?>
     </p>
 
     <hr>
