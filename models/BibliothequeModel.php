@@ -1,37 +1,37 @@
 <?php
 
-
-require_once __DIR__ . "/Livre.php";
-require_once __DIR__ . "/../config/Database.php";
-
+require_once __DIR__ . "/../Repository/LivreRepository.php";
 class BibliothequeModel
 {
-    private $pdo;
+    private $repository;
+
     public function __construct($pdo)
     {
-        $this->pdo = $pdo;
+        $this->repository = new LivreRepository($pdo);
     }
+
     public function getLivres()
     {
-        $sql = "SELECT * FROM livres";
+        return $this->repository->findAll();
+    }
 
-        $stmt = $this->pdo->query($sql);
+    public function ajouterLivre($titre, $auteur, $annee, $categorie, $disponible)
+    {
+        return $this->repository->create($titre, $auteur, $annee, $categorie, $disponible);
+    }
 
-        $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function mettreAJourLivre($id, $titre, $auteur, $annee, $categorie, $disponible)
+    {
+        return $this->repository->update($id, $titre, $auteur, $annee, $categorie, $disponible);
+    }
 
-        $livres = [];
+    public function supprimerLivre($id)
+    {
+        return $this->repository->delete($id);
+    }
 
-        foreach ($resultats as $ligne)
-        {
-            $livres[] = new Livre(
-                $ligne["titre"],
-                $ligne["auteur"],
-                $ligne["annee"],
-                $ligne["categorie"],
-                $ligne["disponible"]
-            );
-        }
-
-        return $livres;
+    public function getLivreById($id)
+    {
+        return $this->repository->findById($id);
     }
 }
