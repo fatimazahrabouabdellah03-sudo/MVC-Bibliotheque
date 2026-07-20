@@ -35,7 +35,6 @@ class BibliothequeController
                 $this->supprimer();
             }
 
-            /** @var Livre[] $livres */
             $livres = $this->model->getLivres();
 
             require __DIR__ .
@@ -62,7 +61,6 @@ class BibliothequeController
         if (
             empty($titre)
             || empty($auteur)
-            || empty($annee)
             || empty($annee)
             || empty($categorie)
         ) {
@@ -138,8 +136,7 @@ class BibliothequeController
             );
         }
 
-        $this->model
-            ->supprimerLivre($id);
+        $this->model->supprimerLivre($id);
 
         header("Location: index.php");
         exit;
