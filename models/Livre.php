@@ -2,12 +2,13 @@
 
 class Livre
 {
-    private $id;
-    private $titre;
-    private $auteur;
-    private $annee;
-    private $categorie;
-    private $disponible;
+    private ?int $id;
+
+    private string $titre;
+    private string $auteur;
+    private int $annee;
+    private string $categorie;
+    private bool $disponible;
 
     public function __construct(
         $titre,
@@ -17,12 +18,12 @@ class Livre
         $disponible,
         $id = null
     ) {
+        $this->id = $id;
         $this->titre = $titre;
         $this->auteur = $auteur;
         $this->annee = $annee;
         $this->categorie = $categorie;
         $this->disponible = $disponible;
-        $this->id = $id;
     }
 
     public function getId()
@@ -55,11 +56,6 @@ class Livre
         return $this->disponible;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function setTitre($titre)
     {
         $this->titre = $titre;
@@ -82,7 +78,6 @@ class Livre
 
     public function setDisponible($disponible)
     {
-        $this->disponible =
-            $disponible;
+        $this->disponible = $disponible;
     }
 }

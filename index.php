@@ -11,8 +11,8 @@ if (file_exists(__DIR__ . '/.env')) {
     }
 }
 
-require_once __DIR__ .
-    "/controllers/BibliothequeController.php";
+require_once __DIR__
+    . "/controllers/BibliothequeController.php";
 
 $controller =
     new BibliothequeController();

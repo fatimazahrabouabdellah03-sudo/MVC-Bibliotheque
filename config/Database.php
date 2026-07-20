@@ -7,18 +7,25 @@ class Database
 
     private function __construct()
     {
-        $this->pdo = new PDO(
-            "mysql:host=" . getenv('DB_HOST') .
-            ";dbname=" . getenv('DB_NAME') .
-            ";charset=utf8",
-            getenv('DB_USER'),
-            getenv('DB_PASSWORD')
-        );
+        try {
+            $this->pdo = new PDO(
+                "mysql:host=" . getenv('DB_HOST') .
+                ";dbname=" . getenv('DB_NAME') .
+                ";charset=utf8",
+                getenv('DB_USER'),
+                getenv('DB_PASSWORD')
+            );
 
-        $this->pdo->setAttribute(
-            PDO::ATTR_ERRMODE,
-            PDO::ERRMODE_EXCEPTION
-        );
+            $this->pdo->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+        } catch (PDOException $e) {
+            die(
+                "Erreur de connexion : "
+                . htmlspecialchars($e->getMessage())
+            );
+        }
     }
 
     public static function getInstance(): Database
