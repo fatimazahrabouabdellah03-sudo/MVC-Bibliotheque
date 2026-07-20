@@ -16,7 +16,27 @@ class BibliothequeController
     public function index()
     {
         try {
+            $livreAEditer = null;
 
+            // Gestion de la modification (afficher le formulaire)
+            if (isset($_GET['editer'])) {
+                $id = filter_input(
+                    INPUT_GET,
+                    'editer',
+                    FILTER_VALIDATE_INT
+                );
+
+                if (!$id) {
+                    throw new Exception("ID invalide.");
+                }
+
+                $livreAEditer = $this->model->getLivreById($id);
+                if (!$livreAEditer) {
+                    throw new Exception("Livre non trouvé.");
+                }
+            }
+
+            // Gestion de l'ajout
             if (
                 $_SERVER['REQUEST_METHOD'] === 'POST'
                 && isset($_POST['ajouter'])
@@ -24,6 +44,7 @@ class BibliothequeController
                 $this->ajouter();
             }
 
+            // Gestion de la mise à jour
             if (
                 $_SERVER['REQUEST_METHOD'] === 'POST'
                 && isset($_POST['modifier'])
@@ -31,10 +52,12 @@ class BibliothequeController
                 $this->modifier();
             }
 
+            // Gestion de la suppression
             if (isset($_GET['supprimer'])) {
                 $this->supprimer();
             }
 
+            /** @var Livre[] $livres */
             $livres = $this->model->getLivres();
 
             require __DIR__ .
@@ -42,9 +65,9 @@ class BibliothequeController
 
         } catch (Exception $e) {
 
-            echo htmlspecialchars(
-                $e->getMessage()
-            );
+            echo "❌ Erreur : " . htmlspecialchars(
+                    $e->getMessage()
+                );
         }
     }
 
@@ -136,7 +159,8 @@ class BibliothequeController
             );
         }
 
-        $this->model->supprimerLivre($id);
+        $this->model
+            ->supprimerLivre($id);
 
         header("Location: index.php");
         exit;
